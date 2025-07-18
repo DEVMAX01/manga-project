@@ -2,6 +2,7 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import { Header } from "@/components/Header";
+import { LatestUpdatesSection } from "@/components/LatestUpdatesSection";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -196,10 +197,10 @@ const Index = () => {
           <div className="container mx-auto px-4">
             <div className="text-center mb-12">
               <h1 className="text-4xl lg:text-6xl font-bold mb-4">
-                Featured on <span className="text-primary">UTOON</span>
+                Featured on <span className="text-primary">READ SCANS</span>
               </h1>
               <p className="text-lg text-muted-foreground">
-                Dive into the most captivating stories and latest releases
+                Discover the most captivating stories and latest releases
               </p>
             </div>
 
@@ -260,82 +261,7 @@ const Index = () => {
           <div className="flex-1 space-y-12">
 
             {/* Latest Updates */}
-            <section>
-              <div className="flex items-center justify-between mb-8">
-                <div>
-                  <h2 className="text-3xl font-bold mb-2">Latest Updates</h2>
-                  <p className="text-muted-foreground">Fresh chapters and new releases</p>
-                </div>
-                <div className="flex gap-2">
-                  <Button variant="outline" size="sm">
-                    All
-                  </Button>
-                  <Button variant="ghost" size="sm">
-                    Manga
-                  </Button>
-                  <Button variant="ghost" size="sm">
-                    Manhwa
-                  </Button>
-                  <Button variant="ghost" size="sm">
-                    Manhua
-                  </Button>
-                </div>
-              </div>
-              
-              <div className="grid grid-cols-4 gap-4">
-                {latestUpdates.map((manga) => (
-                  <Card key={manga.id} className="group hover:shadow-lg transition-all duration-300 cursor-pointer overflow-hidden">
-                    <Link to={`/series/${manga.id}`}>
-                      <div className="relative aspect-[3/4] overflow-hidden">
-                        <img
-                          src={manga.coverImage}
-                          alt={manga.title}
-                          className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
-                        />
-                        <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent" />
-                        
-                        {/* NEW Badge */}
-                        <Badge className="absolute top-2 right-2 bg-red-500 text-white text-xs px-2 py-1">
-                          NEW
-                        </Badge>
-                        
-                        {/* Rating */}
-                        <div className="absolute top-2 left-2 flex items-center gap-1 bg-black/60 rounded px-2 py-1">
-                          <Star className="h-3 w-3 fill-yellow-400 text-yellow-400" />
-                          <span className="text-white text-xs font-medium">{manga.rating}</span>
-                        </div>
-                        
-                        {/* Placement Image */}
-                        <div className="absolute bottom-16 left-2">
-                          <img
-                            src={manga.placementImage}
-                            alt="Placement"
-                            className="w-12 h-8 object-cover rounded border-2 border-white"
-                          />
-                        </div>
-                        
-                        {/* Chapter info at bottom */}
-                        <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black via-black/80 to-transparent p-3">
-                          <h3 className="text-white font-semibold text-sm mb-1 line-clamp-2">
-                            {manga.title}
-                          </h3>
-                          <div className="flex items-center justify-between text-xs">
-                            <span className="text-white font-medium">{manga.latestChapter}</span>
-                            <span className="text-gray-300">{manga.timeAgo}</span>
-                          </div>
-                        </div>
-                      </div>
-                    </Link>
-                  </Card>
-                ))}
-              </div>
-              
-              <div className="text-center mt-8">
-                <Button variant="outline" size="lg" asChild>
-                  <Link to="/latest">View All Updates</Link>
-                </Button>
-              </div>
-            </section>
+            <LatestUpdatesSection />
 
             {/* What's Hot */}
             <section>

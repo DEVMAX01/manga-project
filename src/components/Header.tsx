@@ -33,9 +33,9 @@ export const Header = () => {
         {/* Logo */}
         <Link to="/" className="flex items-center space-x-2">
           <div className="h-8 w-8 rounded bg-primary flex items-center justify-center">
-            <span className="text-primary-foreground font-bold">M</span>
+            <span className="text-primary-foreground font-bold">RS</span>
           </div>
-          <span className="font-bold text-xl">MangaReader</span>
+          <span className="font-bold text-xl">READ SCANS</span>
         </Link>
 
         {/* Desktop Navigation */}
