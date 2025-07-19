@@ -11,6 +11,8 @@ import Reader from "./pages/Reader";
 import Auth from "./pages/Auth";
 import Admin from "./pages/Admin";
 import Store from "./pages/Store";
+import AllManga from "./pages/AllManga";
+import Profile from "./pages/Profile";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -29,6 +31,8 @@ const App = () => (
             <Route path="/auth" element={<Auth />} />
             <Route path="/admin" element={<Admin />} />
             <Route path="/store" element={<Store />} />
+            <Route path="/browse" element={<AllManga />} />
+            <Route path="/profile" element={<Profile />} />
             <Route path="*" element={<NotFound />} />
           </Routes>
         </BrowserRouter>

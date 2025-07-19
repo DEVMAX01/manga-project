@@ -125,10 +125,11 @@ const Series = () => {
 
         {/* Content Tabs */}
         <Tabs defaultValue="chapters" className="space-y-6">
-          <TabsList className="grid w-full grid-cols-3 max-w-md">
+          <TabsList className="grid w-full grid-cols-4 max-w-lg">
             <TabsTrigger value="chapters">Chapters</TabsTrigger>
             <TabsTrigger value="details">Details</TabsTrigger>
             <TabsTrigger value="reviews">Reviews</TabsTrigger>
+            <TabsTrigger value="comments">Comments</TabsTrigger>
           </TabsList>
           
           <TabsContent value="chapters" className="space-y-4">
@@ -278,6 +279,96 @@ const Series = () => {
                 <div className="text-center py-8 text-muted-foreground">
                   <p>No reviews yet. Be the first to review this manga!</p>
                   <Button className="mt-4">Write a Review</Button>
+                </div>
+              </CardContent>
+            </Card>
+          </TabsContent>
+          
+          <TabsContent value="comments" className="space-y-4">
+            <Card>
+              <CardContent className="p-6">
+                <h3 className="text-xl font-bold mb-4">Comments</h3>
+                
+                {/* Comment Form */}
+                <div className="mb-6 p-4 border rounded-lg">
+                  <textarea 
+                    placeholder="Write your comment..."
+                    className="w-full p-3 border rounded-lg resize-none bg-background text-foreground"
+                    rows={3}
+                  />
+                  <div className="flex justify-end mt-2">
+                    <Button>Post Comment</Button>
+                  </div>
+                </div>
+                
+                {/* Sample Comments */}
+                <div className="space-y-4">
+                  <div className="p-4 border rounded-lg">
+                    <div className="flex items-start gap-3">
+                      <div className="w-8 h-8 bg-primary rounded-full flex items-center justify-center text-primary-foreground text-sm font-bold">
+                        M
+                      </div>
+                      <div className="flex-1">
+                        <div className="flex items-center gap-2 mb-1">
+                          <span className="font-medium">MangaFan123</span>
+                          <span className="text-xs text-muted-foreground">2 hours ago</span>
+                        </div>
+                        <p className="text-sm">
+                          This is one of the best manga I've ever read! The character development is incredible and the plot twists keep you on edge.
+                        </p>
+                        <div className="flex items-center gap-2 mt-2">
+                          <Button variant="ghost" size="sm">👍 12</Button>
+                          <Button variant="ghost" size="sm">Reply</Button>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  
+                  <div className="p-4 border rounded-lg">
+                    <div className="flex items-start gap-3">
+                      <div className="w-8 h-8 bg-secondary rounded-full flex items-center justify-center text-secondary-foreground text-sm font-bold">
+                        A
+                      </div>
+                      <div className="flex-1">
+                        <div className="flex items-center gap-2 mb-1">
+                          <span className="font-medium">AnimeReader</span>
+                          <span className="text-xs text-muted-foreground">5 hours ago</span>
+                        </div>
+                        <p className="text-sm">
+                          The art style is absolutely stunning! Every panel is like a masterpiece. Can't wait for the next chapter.
+                        </p>
+                        <div className="flex items-center gap-2 mt-2">
+                          <Button variant="ghost" size="sm">👍 8</Button>
+                          <Button variant="ghost" size="sm">Reply</Button>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  
+                  <div className="p-4 border rounded-lg">
+                    <div className="flex items-start gap-3">
+                      <div className="w-8 h-8 bg-accent rounded-full flex items-center justify-center text-accent-foreground text-sm font-bold">
+                        R
+                      </div>
+                      <div className="flex-1">
+                        <div className="flex items-center gap-2 mb-1">
+                          <span className="font-medium">ReadingNinja</span>
+                          <span className="text-xs text-muted-foreground">1 day ago</span>
+                        </div>
+                        <p className="text-sm">
+                          Just started reading this series and I'm already hooked! The world-building is so detailed and immersive.
+                        </p>
+                        <div className="flex items-center gap-2 mt-2">
+                          <Button variant="ghost" size="sm">👍 15</Button>
+                          <Button variant="ghost" size="sm">Reply</Button>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                
+                <div className="text-center mt-6">
+                  <Button variant="outline">Load More Comments</Button>
                 </div>
               </CardContent>
             </Card>

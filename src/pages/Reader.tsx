@@ -121,24 +121,25 @@ const Reader = () => {
     if (readingMode === 'pages') {
       return (
         <div className="relative max-w-4xl mx-auto">
-          <img
-            src={chapterData.pages[currentPage - 1]?.url}
-            alt={`Page ${currentPage}`}
-            className="max-w-full max-h-[80vh] object-contain mx-auto"
-            style={{ transform: `scale(${imageScale / 100})` }}
-          />
+          <div className="relative" style={{ transform: `scale(${imageScale / 100})`, transformOrigin: 'center' }}>
+            <img
+              src={chapterData.pages[currentPage - 1]?.url}
+              alt={`Page ${currentPage}`}
+              className="max-w-full max-h-[80vh] object-contain mx-auto block"
+            />
+          </div>
           
           {/* Navigation Overlays */}
           <button
             onClick={prevPage}
             disabled={currentPage === 1}
-            className="absolute left-0 top-0 w-1/3 h-full bg-transparent hover:bg-black/20 transition-colors disabled:cursor-not-allowed"
+            className="absolute left-0 top-0 w-1/3 h-full bg-transparent hover:bg-black/20 transition-colors disabled:cursor-not-allowed z-10"
             aria-label="Previous page"
           />
           <button
             onClick={nextPage}
             disabled={currentPage === chapterData.pages.length}
-            className="absolute right-0 top-0 w-1/3 h-full bg-transparent hover:bg-black/20 transition-colors disabled:cursor-not-allowed"
+            className="absolute right-0 top-0 w-1/3 h-full bg-transparent hover:bg-black/20 transition-colors disabled:cursor-not-allowed z-10"
             aria-label="Next page"
           />
         </div>
@@ -147,18 +148,20 @@ const Reader = () => {
 
     // Vertical reading modes
     return (
-      <div className="max-w-4xl mx-auto space-y-2">
+      <div className="max-w-4xl mx-auto">
         {chapterData.pages.map((page, index) => (
           <div 
             key={page.id} 
             className={readingMode === 'vertical-gaps' ? 'mb-4' : 'mb-0'}
+            style={{ transformOrigin: 'center top' }}
           >
-            <img
-              src={page.url}
-              alt={`Page ${index + 1}`}
-              className="w-full object-contain mx-auto"
-              style={{ transform: `scale(${imageScale / 100})` }}
-            />
+            <div style={{ transform: `scale(${imageScale / 100})`, transformOrigin: 'center top' }}>
+              <img
+                src={page.url}
+                alt={`Page ${index + 1}`}
+                className="w-full object-contain mx-auto block"
+              />
+            </div>
           </div>
         ))}
       </div>
@@ -167,26 +170,124 @@ const Reader = () => {
 
   return (
     <div className={`min-h-screen bg-black text-white relative ${isFullscreen ? 'fixed inset-0 z-50' : ''}`}>
-      {/* Header */}
+      {/* Chapter Header */}
       {showUI && (
-        <div className="absolute top-0 left-0 right-0 z-40 bg-gradient-to-b from-black/80 to-transparent p-4">
-          <div className="flex items-center justify-between">
-            <div className="flex items-center gap-4">
-              <Button variant="ghost" size="icon" asChild>
-                <Link to={`/series/${seriesId}`}>
-                  <Home className="h-5 w-5" />
-                </Link>
-              </Button>
+        <div className="absolute top-0 left-0 right-0 z-40 bg-gradient-to-b from-black/90 to-transparent">
+          <div className="px-4 py-3 border-b border-white/10">
+            <div className="flex items-center justify-between">
+              <div className="flex items-center gap-4">
+                <Button variant="ghost" size="icon" asChild>
+                  <Link to={`/series/${seriesId}`}>
+                    <Home className="h-5 w-5" />
+                  </Link>
+                </Button>
+                
+                <div>
+                  <h1 className="font-bold text-lg">{chapterData.seriesTitle}</h1>
+                  <p className="text-sm text-gray-300">
+                    Chapter {chapterData.number}: {chapterData.title}
+                  </p>
+                </div>
+              </div>
               
-              <div>
-                <h1 className="font-bold">{chapterData.seriesTitle}</h1>
-                <p className="text-sm text-gray-300">
-                  Chapter {chapterData.number}: {chapterData.title}
-                </p>
+              <div className="flex items-center gap-2">
+                <Sheet>
+                  <SheetTrigger asChild>
+                    <Button variant="ghost" size="sm">
+                      <Settings className="h-4 w-4 mr-2" />
+                      Settings
+                    </Button>
+                  </SheetTrigger>
+                  <SheetContent side="right" className="w-80 bg-background text-foreground">
+                    <SheetHeader>
+                      <SheetTitle>Reading Settings</SheetTitle>
+                    </SheetHeader>
+                    <div className="mt-6 space-y-6">
+                      <div>
+                        <h3 className="text-sm font-medium mb-3">Reading Mode</h3>
+                        <div className="grid grid-cols-1 gap-2">
+                          <Button
+                            variant={readingMode === 'pages' ? 'default' : 'outline'}
+                            onClick={() => setReadingMode('pages')}
+                            className="justify-start"
+                          >
+                            <LayoutPanelTop className="h-4 w-4 mr-2" />
+                            Page by Page
+                          </Button>
+                          <Button
+                            variant={readingMode === 'vertical-gaps' ? 'default' : 'outline'}
+                            onClick={() => setReadingMode('vertical-gaps')}
+                            className="justify-start"
+                          >
+                            <AlignJustify className="h-4 w-4 mr-2" />
+                            Vertical with Gaps
+                          </Button>
+                          <Button
+                            variant={readingMode === 'vertical-no-gaps' ? 'default' : 'outline'}
+                            onClick={() => setReadingMode('vertical-no-gaps')}
+                            className="justify-start"
+                          >
+                            <Rows3 className="h-4 w-4 mr-2" />
+                            Vertical No Gaps
+                          </Button>
+                        </div>
+                      </div>
+                      
+                      <div>
+                        <h3 className="text-sm font-medium mb-3">Zoom Level</h3>
+                        <div className="flex items-center gap-2">
+                          <Button
+                            variant="outline"
+                            size="sm"
+                            onClick={zoomOut}
+                            disabled={imageScale <= 50}
+                          >
+                            <ZoomOut className="h-4 w-4" />
+                          </Button>
+                          <span className="flex-1 text-center text-sm">{imageScale}%</span>
+                          <Button
+                            variant="outline"
+                            size="sm"
+                            onClick={zoomIn}
+                            disabled={imageScale >= 200}
+                          >
+                            <ZoomIn className="h-4 w-4" />
+                          </Button>
+                        </div>
+                      </div>
+                      
+                      <div>
+                        <h3 className="text-sm font-medium mb-3">Display Options</h3>
+                        <div className="space-y-2">
+                          <Button
+                            variant="outline"
+                            onClick={() => setIsFullscreen(!isFullscreen)}
+                            className="w-full justify-start"
+                          >
+                            {isFullscreen ? <Minimize className="h-4 w-4 mr-2" /> : <Maximize className="h-4 w-4 mr-2" />}
+                            {isFullscreen ? 'Exit Fullscreen' : 'Enter Fullscreen'}
+                          </Button>
+                          <Button
+                            variant="outline"
+                            onClick={() => setShowUI(!showUI)}
+                            className="w-full justify-start"
+                          >
+                            {showUI ? <EyeOff className="h-4 w-4 mr-2" /> : <Eye className="h-4 w-4 mr-2" />}
+                            {showUI ? 'Hide Interface' : 'Show Interface'}
+                          </Button>
+                        </div>
+                      </div>
+                    </div>
+                  </SheetContent>
+                </Sheet>
               </div>
             </div>
-
-            <div className="flex items-center gap-2">
+          </div>
+          
+          {/* Reading Controls */}
+          <div className="px-4 py-3">
+            <div className="flex items-center justify-between">
+              <div className="flex items-center gap-2">
               {/* Reading Mode Controls */}
               <div className="flex items-center gap-1 bg-black/20 rounded-lg p-1">
                 <Button
@@ -281,6 +382,7 @@ const Reader = () => {
                   </div>
                 </SheetContent>
               </Sheet>
+              </div>
             </div>
           </div>
         </div>
