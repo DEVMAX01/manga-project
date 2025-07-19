@@ -192,69 +192,6 @@ const Index = () => {
       <Header />
       
       <main className="pb-16">
-        {/* Featured Carousel Section */}
-        <section className="relative bg-gradient-to-br from-primary/5 via-background to-secondary/5 py-16">
-          <div className="container mx-auto px-4">
-            <div className="text-center mb-12">
-              <h1 className="text-4xl lg:text-6xl font-bold mb-4">
-                Featured on <span className="text-primary">READ SCANS</span>
-              </h1>
-              <p className="text-lg text-muted-foreground">
-                Discover the most captivating stories and latest releases
-              </p>
-            </div>
-
-            <div className="relative max-w-7xl mx-auto">
-              <Carousel className="w-full" opts={{ align: "start", loop: true }}>
-                <CarouselContent className="-ml-2">
-                  {featuredManga.slice(0, 10).map((manga, index) => (
-                    <CarouselItem key={manga.id} className="pl-2 basis-1/2 md:basis-1/3 lg:basis-1/5">
-                      <Card className="group hover:shadow-2xl transition-all duration-300 cursor-pointer overflow-hidden border-2 hover:border-primary/20">
-                        <Link to={`/series/${manga.id}`}>
-                          <div className="relative aspect-[3/4] overflow-hidden">
-                            <img
-                              src={manga.coverImage}
-                              alt={manga.title}
-                              className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
-                            />
-                            <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent" />
-                            <Badge 
-                              className={`absolute top-3 left-3 text-white text-xs ${
-                                manga.status === 'Ongoing' ? 'bg-green-500' : manga.status === 'Completed' ? 'bg-blue-500' : 'bg-orange-500'
-                              }`}
-                            >
-                              {manga.status}
-                            </Badge>
-                            <div className="absolute bottom-3 left-3 right-3">
-                              <div className="flex items-center gap-2 text-white text-sm mb-2">
-                                <div className="flex items-center gap-1">
-                                  <Star className="h-4 w-4 fill-yellow-400 text-yellow-400" />
-                                  <span>{manga.rating}</span>
-                                </div>
-                                <div className="flex items-center gap-1">
-                                  <Eye className="h-4 w-4" />
-                                  <span>{manga.views}</span>
-                                </div>
-                              </div>
-                            </div>
-                          </div>
-                          <CardContent className="p-4">
-                            <h3 className="font-bold text-lg mb-1 group-hover:text-primary transition-colors line-clamp-1">
-                              {manga.title}
-                            </h3>
-                            <p className="text-sm text-primary font-medium">{manga.chapters}</p>
-                          </CardContent>
-                        </Link>
-                      </Card>
-                    </CarouselItem>
-                  ))}
-                </CarouselContent>
-                <CarouselPrevious className="left-4" />
-                <CarouselNext className="right-4" />
-              </Carousel>
-            </div>
-          </div>
-        </section>
 
         <div className="flex container mx-auto px-4 py-8 gap-8">
           {/* Main Content */}
@@ -303,27 +240,33 @@ const Index = () => {
               </div>
               
               {/* Trending Tabs */}
-              <div className="flex gap-1 mb-4 bg-muted/30 rounded-lg p-1">
+              <div className="flex gap-0 mb-4 bg-muted/20 rounded-xl p-1 shadow-inner">
                 <button
                   onClick={() => setTrendingTab('today')}
-                  className={`flex-1 px-3 py-2 text-sm font-medium rounded-md transition-colors ${
-                    trendingTab === 'today' ? 'bg-primary text-primary-foreground' : 'text-muted-foreground hover:text-foreground'
+                  className={`flex-1 px-4 py-3 text-sm font-semibold rounded-lg transition-all duration-200 ${
+                    trendingTab === 'today' 
+                      ? 'bg-gradient-to-r from-primary to-primary/90 text-primary-foreground shadow-lg shadow-primary/25 scale-[1.02]' 
+                      : 'text-muted-foreground hover:text-foreground hover:bg-muted/40'
                   }`}
                 >
                   Today
                 </button>
                 <button
                   onClick={() => setTrendingTab('thisWeek')}
-                  className={`flex-1 px-3 py-2 text-sm font-medium rounded-md transition-colors ${
-                    trendingTab === 'thisWeek' ? 'bg-primary text-primary-foreground' : 'text-muted-foreground hover:text-foreground'
+                  className={`flex-1 px-4 py-3 text-sm font-semibold rounded-lg transition-all duration-200 ${
+                    trendingTab === 'thisWeek' 
+                      ? 'bg-gradient-to-r from-primary to-primary/90 text-primary-foreground shadow-lg shadow-primary/25 scale-[1.02]' 
+                      : 'text-muted-foreground hover:text-foreground hover:bg-muted/40'
                   }`}
                 >
                   This Week
                 </button>
                 <button
                   onClick={() => setTrendingTab('allTime')}
-                  className={`flex-1 px-3 py-2 text-sm font-medium rounded-md transition-colors ${
-                    trendingTab === 'allTime' ? 'bg-primary text-primary-foreground' : 'text-muted-foreground hover:text-foreground'
+                  className={`flex-1 px-4 py-3 text-sm font-semibold rounded-lg transition-all duration-200 ${
+                    trendingTab === 'allTime' 
+                      ? 'bg-gradient-to-r from-primary to-primary/90 text-primary-foreground shadow-lg shadow-primary/25 scale-[1.02]' 
+                      : 'text-muted-foreground hover:text-foreground hover:bg-muted/40'
                   }`}
                 >
                   All Time

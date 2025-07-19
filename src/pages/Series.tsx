@@ -1,5 +1,5 @@
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useParams, Link } from "react-router-dom";
 import { Header } from "@/components/Header";
 import { Button } from "@/components/ui/button";
@@ -37,8 +37,15 @@ const seriesData = {
 const Series = () => {
   const { id } = useParams();
   const [isBookmarked, setIsBookmarked] = useState(false);
-  const [chaptersPerRow, setChaptersPerRow] = useState(1);
+  const [chaptersPerRow, setChaptersPerRow] = useState(() => {
+    const saved = localStorage.getItem('chaptersPerRow');
+    return saved ? parseInt(saved) : 3;
+  });
   const [orderAscending, setOrderAscending] = useState(false);
+
+  useEffect(() => {
+    localStorage.setItem('chaptersPerRow', chaptersPerRow.toString());
+  }, [chaptersPerRow]);
 
   return (
     <div className="min-h-screen bg-background">
@@ -171,16 +178,21 @@ const Series = () => {
                       to={`/reader/${seriesData.id}/${chapter.id}`}
                       className="flex items-center gap-3 group"
                     >
-                      <div className="relative flex-shrink-0">
-                        <img
-                          src={chapter.thumbnail}
-                          alt={`Chapter ${chapter.number}`}
-                          className="w-16 h-20 object-cover rounded border"
-                        />
-                        <div className="absolute inset-0 bg-black/60 rounded flex items-center justify-center">
-                          <span className="text-white text-sm font-bold">{chapter.number}</span>
+                      {chapter.thumbnail ? (
+                        <div className="relative flex-shrink-0">
+                          <img
+                            src={chapter.thumbnail}
+                            alt={`Chapter ${chapter.number}`}
+                            className="w-16 h-20 object-cover rounded border"
+                          />
                         </div>
-                      </div>
+                      ) : (
+                        <div className="relative flex-shrink-0">
+                          <div className="w-16 h-20 bg-muted rounded border flex items-center justify-center">
+                            <span className="text-muted-foreground text-sm font-bold">{chapter.number}</span>
+                          </div>
+                        </div>
+                      )}
                       <div className="flex-1 min-w-0">
                         <h3 className="font-medium group-hover:text-primary transition-colors truncate">
                           Chapter {chapter.number}: {chapter.title}

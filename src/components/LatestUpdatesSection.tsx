@@ -267,14 +267,18 @@ export const LatestUpdatesSection = () => {
                 {/* Latest 2 Chapters */}
                 <div className="space-y-1">
                   {series.chapters.map((chapter, index) => (
-                    <div key={chapter.number} className="flex items-center justify-between text-xs">
+                    <Link 
+                      key={chapter.number} 
+                      to={`/reader/${series.id}/ch-${chapter.number}`}
+                      className="flex items-center justify-between text-xs hover:bg-muted/30 p-1 rounded transition-colors"
+                    >
                       <div className="flex items-center gap-1 flex-1 min-w-0">
                         {chapter.isLocked ? (
                           <Lock className="h-3 w-3 text-orange-500 flex-shrink-0" />
                         ) : (
                           <Unlock className="h-3 w-3 text-green-500 flex-shrink-0" />
                         )}
-                        <span className="truncate">
+                        <span className="truncate hover:text-primary transition-colors">
                           Ch. {chapter.number}
                           {index === 0 && <Badge variant="secondary" className="ml-1 text-xs px-1 py-0">NEW</Badge>}
                         </span>
@@ -282,7 +286,7 @@ export const LatestUpdatesSection = () => {
                       <span className="text-muted-foreground text-xs ml-1">
                         {chapter.timeAgo}
                       </span>
-                    </div>
+                    </Link>
                   ))}
                 </div>
               </CardContent>
