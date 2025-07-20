@@ -3,11 +3,12 @@ import { useState } from "react";
 import { Link } from "react-router-dom";
 import { Header } from "@/components/Header";
 import { LatestUpdatesSection } from "@/components/LatestUpdatesSection";
+import { FeaturedSlider } from "@/components/FeaturedSlider";
+import { FrontendAdminToggle } from "@/components/FrontendAdminToggle";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from "@/components/ui/carousel";
-import { Star, Eye, Clock, ChevronLeft, ChevronRight, TrendingUp, Flame } from "lucide-react";
+import { Star, Eye, Clock, TrendingUp, Flame } from "lucide-react";
 
 // Mock data for featured carousel (20 manga for slider)
 const featuredManga = Array.from({ length: 20 }, (_, i) => ({
@@ -190,8 +191,13 @@ const Index = () => {
   return (
     <div className="min-h-screen bg-background">
       <Header />
+      <FrontendAdminToggle isAdmin={true} />
       
       <main className="pb-16">
+        {/* Featured Slider */}
+        <div className="container mx-auto px-4 pt-8">
+          <FeaturedSlider />
+        </div>
 
         <div className="flex container mx-auto px-4 py-8 gap-8">
           {/* Main Content */}

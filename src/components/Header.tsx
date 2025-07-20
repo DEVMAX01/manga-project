@@ -3,7 +3,9 @@ import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Moon, Sun, Search, User, Menu, X, Coins } from "lucide-react";
+import { EnhancedSearch } from "@/components/EnhancedSearch";
+import { ShopModal } from "@/components/ShopModal";
+import { Moon, Sun, Search, User, Menu, X, Coins, ShoppingCart } from "lucide-react";
 import { useTheme } from "next-themes";
 import {
   DropdownMenu,
@@ -17,6 +19,7 @@ export const Header = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
   const [isSearchExpanded, setIsSearchExpanded] = useState(false);
+  const [isShopOpen, setIsShopOpen] = useState(false);
   const navigate = useNavigate();
 
   const handleSearch = (e: React.FormEvent) => {
@@ -56,51 +59,26 @@ export const Header = () => {
 
         {/* Right Side */}
         <div className="flex items-center space-x-2">
-          {/* Coins Display */}
-          <div className="hidden sm:flex items-center gap-1 px-3 py-1 bg-primary/10 rounded-full">
+          {/* Coins Display & Shop */}
+          <Button
+            variant="ghost"
+            onClick={() => setIsShopOpen(true)}
+            className="hidden sm:flex items-center gap-2 px-3 py-1 bg-primary/10 hover:bg-primary/20 rounded-full"
+          >
             <Coins className="h-4 w-4 text-primary" />
             <span className="text-sm font-medium">1,250</span>
-          </div>
+            <ShoppingCart className="h-3 w-3 text-primary" />
+          </Button>
 
-          {/* Search Bar */}
+          {/* Enhanced Search */}
           <div className="hidden sm:flex items-center">
-            <div className={`relative transition-all duration-300 ${isSearchExpanded ? 'w-64' : 'w-10'}`}>
-              {isSearchExpanded ? (
-                <form onSubmit={handleSearch} className="relative">
-                  <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-muted-foreground" />
-                  <Input
-                    type="search"
-                    placeholder="Search manga..."
-                    value={searchQuery}
-                    onChange={(e) => setSearchQuery(e.target.value)}
-                    className="pl-10 pr-10 w-full"
-                    autoFocus
-                    onBlur={() => !searchQuery && setIsSearchExpanded(false)}
-                  />
-                  <Button
-                    type="button"
-                    variant="ghost"
-                    size="icon"
-                    className="absolute right-1 top-1/2 transform -translate-y-1/2 h-8 w-8"
-                    onClick={() => {
-                      setIsSearchExpanded(false);
-                      setSearchQuery("");
-                    }}
-                  >
-                    <X className="h-4 w-4" />
-                  </Button>
-                </form>
-              ) : (
-                <Button
-                  variant="ghost"
-                  size="icon"
-                  onClick={() => setIsSearchExpanded(true)}
-                  className="w-10 h-10"
-                >
-                  <Search className="h-4 w-4" />
-                </Button>
-              )}
-            </div>
+            <EnhancedSearch
+              isExpanded={isSearchExpanded}
+              onExpand={setIsSearchExpanded}
+              onSearch={(query) => console.log("Searching:", query)}
+              value={searchQuery}
+              onChange={setSearchQuery}
+            />
           </div>
 
           {/* Theme Toggle */}
@@ -193,6 +171,9 @@ export const Header = () => {
           </nav>
         </div>
       )}
+
+      {/* Shop Modal */}
+      <ShopModal isOpen={isShopOpen} onClose={() => setIsShopOpen(false)} />
     </header>
   );
 };
